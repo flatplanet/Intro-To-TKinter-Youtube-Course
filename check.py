@@ -3,7 +3,7 @@ from PIL import ImageTk,Image
 
 
 root = Tk()
-root.title('Codemy.com Image Viewer')
+root.title('Codemy.com - Learn To Code!')
 root.iconbitmap('c:/gui/codemy.ico')
 root.geometry("400x400")
 
