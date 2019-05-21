@@ -27,12 +27,51 @@ c.execute("""CREATE TABLE addresses (
 		zipcode integer
 		)""")
 '''
+# Create Update function to update a record
+def update():
+	# Create a database or connect to one
+	conn = sqlite3.connect('address_book.db')
+	# Create cursor
+	c = conn.cursor()
+
+	record_id = delete_box.get()
+
+	c.execute("""UPDATE addresses SET
+		first_name = :first,
+		last_name = :last,
+		address = :address,
+		city = :city,
+		state = :state,
+		zipcode = :zipcode 
+
+		WHERE oid = :oid""",
+		{
+		'first': f_name_editor.get(),
+		'last': l_name_editor.get(),
+		'address': address_editor.get(),
+		'city': city_editor.get(),
+		'state': state_editor.get(),
+		'zipcode': zipcode_editor.get(),
+		'oid': record_id
+		})
+
+
+	#Commit Changes
+	conn.commit()
+
+	# Close Connection 
+	conn.close()
+
+	editor.destroy()
+
+
 # Create Edit function to update a record
 def edit():
+	global editor
 	editor = Tk()
 	editor.title('Update A Record')
 	editor.iconbitmap('c:/gui/codemy.ico')
-	editor.geometry("400x600")
+	editor.geometry("400x300")
 	# Create a database or connect to one
 	conn = sqlite3.connect('address_book.db')
 	# Create cursor
@@ -43,6 +82,14 @@ def edit():
 	c.execute("SELECT * FROM addresses WHERE oid = " + record_id)
 	records = c.fetchall()
 	
+	#Create Global Variables for text box names
+	global f_name_editor
+	global l_name_editor
+	global address_editor
+	global city_editor
+	global state_editor
+	global zipcode_editor
+
 	# Create Text Boxes
 	f_name_editor = Entry(editor, width=30)
 	f_name_editor.grid(row=0, column=1, padx=20, pady=(10, 0))
@@ -82,7 +129,7 @@ def edit():
 
 	
 	# Create a Save Button To Save edited record
-	edit_btn = Button(editor, text="Save Record", command=edit)
+	edit_btn = Button(editor, text="Save Record", command=update)
 	edit_btn.grid(row=6, column=0, columnspan=2, pady=10, padx=10, ipadx=145)
 
 	
