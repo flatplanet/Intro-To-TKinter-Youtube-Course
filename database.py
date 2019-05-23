@@ -63,10 +63,11 @@ def update():
 	conn.close()
 
 	editor.destroy()
-
+	root.deiconify()
 
 # Create Edit function to update a record
 def edit():
+	root.withdraw()
 	global editor
 	editor = Tk()
 	editor.title('Update A Record')
