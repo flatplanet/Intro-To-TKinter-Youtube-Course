@@ -47,10 +47,10 @@ def zipLookup():
 
 
 zip = Entry(root)
-zip.grid(row=0, column=0, stick=W+E+N+S)
+zip.grid(row=0, column=0, sticky=W+E+N+S)
 
 zipButton = Button(root, text="Lookup Zipcode", command=zipLookup)
-zipButton.grid(row=0, column=1, stick=W+E+N+S)
+zipButton.grid(row=0, column=1, sticky=W+E+N+S)
 
 
 root.mainloop()
