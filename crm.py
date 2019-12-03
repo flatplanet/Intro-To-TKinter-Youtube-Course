@@ -88,10 +88,26 @@ def add_customer():
 	# Clear the fields
 	clear_fields()
 
+# List Cusomters 
+def list_customers():
+	list_customer_query = Tk()
+	list_customer_query.title("List All Customers")
+	list_customer_query.iconbitmap('c:/gui/codemy.ico')
+	list_customer_query.geometry("800x600")
+	# Query The Database
+	my_cursor.execute("SELECT * FROM customers")
+	result = my_cursor.fetchall()
+	
+	for index, x in enumerate(result):
+		num = 0
+		for y in x:
+			lookup_label = Label(list_customer_query, text=y)
+			lookup_label.grid(row=index, column=num)
+			num +=1
 
 # Create a Label
 title_label = Label(root, text="Codemy Customer Database", font=("Helvetica", 16))
-title_label.grid(row=0, column=0, columnspan=2, pady="10")
+title_label.grid(row=0, column=0, columnspan=2, pady=10)
 
 #Create Main Form To Enter Customer Data
 first_name_label = Label(root, text="First Name").grid(row=1, column=0, sticky=W, padx=10)
@@ -148,16 +164,16 @@ discount_code_box.grid(row=12, column=1, pady=5)
 price_paid_box = Entry(root)
 price_paid_box.grid(row=13, column=1, pady=5)
 
-# Creat Buttons
+# Create Buttons
 add_customer_button = Button(root, text="Add Customer To Database", command=add_customer)
 add_customer_button.grid(row=14, column=0, padx=10, pady=10)
 clear_fields_button = Button(root, text="Clear Fields", command=clear_fields)
 clear_fields_button.grid(row=14, column=1)
+# list customers button
+list_customers_button = Button(root, text="List Customer", command=list_customers)
+list_customers_button.grid(row=15, column=0, sticky=W, padx=10)	
 
-my_cursor.execute("SELECT * FROM customers")
-result = my_cursor.fetchall()
-for x in result:
-	print(x)
+
 
 root.mainloop()
 
