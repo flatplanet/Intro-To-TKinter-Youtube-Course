@@ -3,7 +3,6 @@ from PIL import ImageTk,Image
 import mysql.connector
 import csv
 
-
 root = Tk()
 root.title('Codemy.com - Learn To Code!')
 root.iconbitmap('c:/gui/codemy.ico')
@@ -89,17 +88,52 @@ def add_customer():
 	# Clear the fields
 	clear_fields()
 
+# Write To CSV Excel Function
 def write_to_csv(result):
-	with open('customers.csv', 'a') as f:
+	with open('customers.csv', 'a', newline='') as f:
 		w = csv.writer(f, dialect='excel')
-		for ha in result:
-			w.writerow(ha)
+		for record in result:
+			w.writerow(record)
+
+#Search customers
+def search_customers():
+	def search_now():
+		params = search_box.get()
+
+		sql = "SELECT * FROM customers WHERE last_name = %s"
+		name = (params, )
+		my_cursor.execute(sql, name)
+		#my_cursor.execute("SELECT * FROM customers WHERE last_name LIKE " + str(params))
+		result = my_cursor.fetchall()
+		if not result:
+			result = "Not Found"
+			
+		params_label = Label(search_customers, text=result)
+		params_label.grid(row=2, column=0)
+		
+	search_customers = Tk()
+	search_customers.title("Search Customers")
+	search_customers.iconbitmap('c:/gui/codemy.ico')
+	search_customers.geometry("800x600")
+	# Query The Database
+	
+	# Search box
+	search_box = Entry(search_customers)
+	search_box.grid(row=0, column=1, padx=10, pady=10)
+
+	search_box_label = Label(search_customers, text="Search Customers")
+	search_box_label.grid(row=0, column=0, padx=10, pady=10)
+
+	search_button = Button(search_customers, text="Search Customers", command=search_now)
+	search_button.grid(row=1, column=0, padx=10)
+
+
 
 # List Cusomters 
 def list_customers():
 	list_customer_query = Tk()
 	list_customer_query.title("List All Customers")
-	list_customer_query.iconbitmap('c:/gui/codemy.ico')	
+	list_customer_query.iconbitmap('c:/gui/codemy.ico')
 	list_customer_query.geometry("800x600")
 	# Query The Database
 	my_cursor.execute("SELECT * FROM customers")
@@ -111,11 +145,8 @@ def list_customers():
 			lookup_label = Label(list_customer_query, text=y)
 			lookup_label.grid(row=index, column=num)
 			num +=1
-
-	# add cvs button
-	csv_button = Button(list_customer_query, text="Save To CSV", command=lambda: write_to_csv(result))
+	csv_button = Button(list_customer_query, text="Save to Excel", command=lambda: write_to_csv(result))
 	csv_button.grid(row=index+1, column=0)
-
 # Create a Label
 title_label = Label(root, text="Codemy Customer Database", font=("Helvetica", 16))
 title_label.grid(row=0, column=0, columnspan=2, pady=10)
@@ -183,7 +214,9 @@ clear_fields_button.grid(row=14, column=1)
 # list customers button
 list_customers_button = Button(root, text="List Customer", command=list_customers)
 list_customers_button.grid(row=15, column=0, sticky=W, padx=10)	
-
+#Search Customers
+search_customers_button = Button(root, text="Search Customers", command=search_customers)
+search_customers_button.grid(row=15, column=1, sticky=W, padx=10)
 
 
 root.mainloop()
