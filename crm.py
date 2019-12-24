@@ -2,6 +2,7 @@ from tkinter import *
 from PIL import ImageTk,Image
 import mysql.connector
 import csv
+from tkinter import ttk
 
 root = Tk()
 root.title('Codemy.com - Learn To Code!')
@@ -102,8 +103,24 @@ def search_customer():
 	search_customers.iconbitmap('c:/gui/codemy.ico')
 	search_customers.geometry("800x600")
 	def seach_now():
+		selected = drop.get()
+		sql = ""
+		if selected == "Search by...":
+			test = Label(search_customers, text="Hey! You forgot to pick a drop down selection")
+			test.grid(row=2, column=0)
+		if selected == "Last Name":
+			sql = "SELECT * FROM customers WHERE last_name = %s"
+			
+		if selected == "Email Address":
+			sql = "SELECT * FROM customers WHERE email = %s"
+			
+		if selected == "Customer ID":
+			sql = "SELECT * FROM customers WHERE user_id = %s"
+			
+
+		
 		searched = search_box.get()
-		sql = "SELECT * FROM customers WHERE last_name = %s"
+		#sql = "SELECT * FROM customers WHERE last_name = %s"
 		name = (searched, )
 		result = my_cursor.execute(sql, name)
 		result = my_cursor.fetchall()
@@ -112,20 +129,22 @@ def search_customer():
 			result = "Record Not Found..."
 
 		searched_label = Label(search_customers, text=result)
-		searched_label.grid(row=2, column=0, padx=10, columnspan=2)
-
+		searched_label.grid(row=3, column=0, padx=10, columnspan=2)
+		
 
 	# Entry box to search for customer
 	search_box = Entry(search_customers)
 	search_box.grid(row=0, column=1, padx=10, pady=10)
 	# Entry box Label search for customer
-	search_box_label = Label(search_customers, text="Search Customer By Last Name: ")
+	search_box_label = Label(search_customers, text="Search Customers ")
 	search_box_label.grid(row=0, column=0, padx=10, pady=10)
 	# Entry box search  Button for customer
 	search_button = Button(search_customers, text="Search Customers", command=seach_now)
 	search_button.grid(row=1, column=0, padx=10)
-	
-
+	# Drop Down Box
+	drop = ttk.Combobox(search_customers, value=["Search by...", "Last Name", "Email Address", "Customer ID"])
+	drop.current(0)
+	drop.grid(row=0, column=2)
 	
 
 
