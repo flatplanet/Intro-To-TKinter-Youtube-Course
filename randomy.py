@@ -20,6 +20,7 @@ our_state_capitals = {
 'vermont':"montpelier"
 }
 
+'''
 #Generate a random number
 global rando
 rando = randint(0, len(our_states)-1)
@@ -28,7 +29,7 @@ rando = randint(0, len(our_states)-1)
 #print(our_state_capitals[our_states[rando]])
 
 answer = our_states[rando]
-'''
+
 # add our first random selection to our answer_list list
 answer_list.append(our_states[rando])
 
