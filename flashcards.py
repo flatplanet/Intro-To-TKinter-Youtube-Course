@@ -1,6 +1,8 @@
 from tkinter import *
 from PIL import ImageTk, Image
 from random import randint
+import random
+
 
 root = Tk()
 root.title('Flashcards!')
@@ -92,8 +94,66 @@ def state_capitals():
 	# Hide previous frames
 	hide_all_frames()
 	state_capitals_frame.pack(fill="both", expand=1)
-	my_label = Label(state_capitals_frame, text="Capitals").pack()
+	#my_label = Label(state_capitals_frame, text="Capitals").pack()
 
+	global show_state
+	show_state = Label(state_capitals_frame)
+	show_state.pack(pady=15)
+
+	global our_states
+	our_states = ['california', 'florida', 'illinois', 'kentucky', 'nebraska', 'nevada', 'newyork', 'oregon', 'texas', "vermont"]
+
+	global our_state_capitals
+	our_state_capitals = {
+	'california':"sacramento", 
+	'florida':"tallahassee", 
+	'illinois':"springfield", 
+	'kentucky':"frankfort", 
+	'nebraska':"lincoln", 
+	'nevada':"carson city", 
+	'newyork':"albany", 
+	'oregon':"salem", 
+	'texas':"austin", 
+	'vermont':"montpelier"
+	}
+
+	# Create empty answer list and counter
+	answer_list = []
+	count = 1
+
+	# Generate our three random capitals
+	while count < 4:
+		rando = randint(0, len(our_states)-1)
+		# If first selection, make it our answer
+		if count == 1:
+			answer = our_states[rando]
+			global state_image
+			state = "states/" + our_states[rando] + ".png"
+			state_image = ImageTk.PhotoImage(Image.open(state))
+			show_state.config(image=state_image)
+
+		# Add our first selection to a new list
+		answer_list.append(our_states[rando])
+
+		# Remove from old list
+		our_states.remove(our_states[rando])
+
+		#Shuffle original list
+		random.shuffle(our_states)
+		count += 1
+
+	random.shuffle(answer_list)
+
+	global capital_radio
+	capital_radio = IntVar()
+
+	capital_radio_butto1 = Radiobutton(state_capitals_frame, text=our_state_capitals[answer_list[0]], variable=capital_radio, value=1).pack()
+	capital_radio_butto2 = Radiobutton(state_capitals_frame, text=our_state_capitals[answer_list[1]], variable=capital_radio, value=2).pack()
+	capital_radio_butto3 = Radiobutton(state_capitals_frame, text=our_state_capitals[answer_list[2]], variable=capital_radio, value=3).pack()
+
+	# Add A Pass Button
+	pass_button = Button(state_capitals_frame, text="Pass", command=state_capitals)
+	pass_button.pack(pady=15)
 
 # Hide all previous frames
 def hide_all_frames():
