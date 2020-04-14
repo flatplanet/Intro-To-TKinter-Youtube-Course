@@ -9,6 +9,58 @@ root.title('Flashcards!')
 root.iconbitmap('c:/gui/codemy.ico')
 root.geometry("500x600")
 
+# Create Addition Math Flashcard Function
+def add():
+	hide_all_frames()
+	add_frame.pack(fill="both", expand=1)
+
+	add_label = Label(add_frame, text="Addition Flashcards", font=("Helvetica", 18)).pack(pady=15)
+	pic_frame = Frame(add_frame, width=400, height=300)
+	pic_frame.pack()
+
+	#Generate a random number
+	global rando
+	num_1 = randint(0, 10)
+	num_2 = randint(0, 10)
+
+	# Create 3 labels inside our pic frame, frame
+	add_1 = Label(pic_frame)
+	add_2 = Label(pic_frame)
+	math_sign = Label(pic_frame, text="+", font=("Helvetica", 28))
+	# Grid our labels
+	add_1.grid(row=0, column=0)
+	math_sign.grid(row=0, column=1)
+	add_2.grid(row=0, column=2)
+
+	global add_image1
+	global add_image2
+	card1 = "C:/gui/images/flashcards/" + str(num_1) + ".png"
+	card2 = "C:/gui/images/flashcards/" + str(num_2) + ".png"
+	add_image1 = ImageTk.PhotoImage(Image.open(card1))
+	add_image2 = ImageTk.PhotoImage(Image.open(card2))
+
+	# Put flashcard images on the screen
+	add_1.config(image=add_image1)
+	add_2.config(image=add_image2)
+
+	# Create answer box and button
+
+	add_answer = Entry(add_frame, font=("Helvetica", 18))
+	add_answer.pack(pady=50)
+
+	add_answer_button = Button(add_frame, text="Answer")
+	add_answer_button.pack()
+
+
+
+
+
+
+
+
+
+
+
 # Create Radomizing state function
 def random_state():
 	#Create a list of state names
@@ -189,6 +241,10 @@ def hide_all_frames():
 	for widget in state_capitals_frame.winfo_children():
 		widget.destroy()
 
+	for widget in add_frame.winfo_children():
+		widget.destroy()
+
+	add_frame.pack_forget()
 	state_frame.pack_forget()
 	state_capitals_frame.pack_forget()
 
@@ -205,12 +261,17 @@ states_menu.add_command(label="State Capitals", command=state_capitals)
 states_menu.add_separator()
 states_menu.add_command(label="Exit", command=root.quit)
 
+# Math Flashcard Menu
+math_menu = Menu(my_menu)
+my_menu.add_cascade(label="Math", menu=math_menu)
+math_menu.add_command(label="Addition", command=add)
 
 
 # Create our Frames
 state_frame = Frame(root, width=500, height=500, bg="white")
 state_capitals_frame = Frame(root, width=500, height=500)
-
+# Addition Frame
+add_frame = Frame(root, width=500, height=500)
 
 
 
