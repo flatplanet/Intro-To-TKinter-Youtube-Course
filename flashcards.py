@@ -9,6 +9,39 @@ root.title('Flashcards!')
 root.iconbitmap('c:/gui/codemy.ico')
 root.geometry("500x600")
 
+# Create flashcard randomization
+def math_random():
+	#Generate a random number
+	global num_1
+	global num_2
+	num_1 = randint(0, 10)
+	num_2 = randint(0, 10)
+
+	global add_image1
+	global add_image2
+	card1 = "C:/gui/images/flashcards/" + str(num_1) + ".png"
+	card2 = "C:/gui/images/flashcards/" + str(num_2) + ".png"
+	add_image1 = ImageTk.PhotoImage(Image.open(card1))
+	add_image2 = ImageTk.PhotoImage(Image.open(card2))
+
+	# Put flashcard images on the screen
+	add_1.config(image=add_image1)
+	add_2.config(image=add_image2)
+
+# Create addition answer function
+def answer_add():
+	answer = num_1 + num_2
+	if int(add_answer.get()) == answer:
+		response = "Correct! " + str(num_1) + " + " + str(num_2) + " = " + str(answer)
+	else:
+		response = "Wrong! " + str(num_1) + " + " + str(num_2) + " = " + str(answer) + " Not " + add_answer.get()
+
+	answer_message.config(text=response)
+	add_answer.delete(0, 'end')
+	math_random()
+
+
+
 # Create Addition Math Flashcard Function
 def add():
 	hide_all_frames()
@@ -19,11 +52,14 @@ def add():
 	pic_frame.pack()
 
 	#Generate a random number
-	global rando
+	global num_1
+	global num_2
 	num_1 = randint(0, 10)
 	num_2 = randint(0, 10)
 
 	# Create 3 labels inside our pic frame, frame
+	global add_1
+	global add_2
 	add_1 = Label(pic_frame)
 	add_2 = Label(pic_frame)
 	math_sign = Label(pic_frame, text="+", font=("Helvetica", 28))
@@ -44,12 +80,17 @@ def add():
 	add_2.config(image=add_image2)
 
 	# Create answer box and button
-
+	global add_answer
 	add_answer = Entry(add_frame, font=("Helvetica", 18))
 	add_answer.pack(pady=50)
 
-	add_answer_button = Button(add_frame, text="Answer")
+	add_answer_button = Button(add_frame, text="Answer", command=answer_add)
 	add_answer_button.pack()
+
+	global answer_message
+	answer_message = Label(add_frame, text="", font=("Helvetica", 18))
+	answer_message.pack(pady=40)
+
 
 
 
