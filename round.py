@@ -11,8 +11,8 @@ def thing():
 
 login_btn = PhotoImage(file='images/login.png')
 
-img_label = Label(image=login_btn)
-#img_label.pack(pady=20)
+img_label = Label(image=login_btn, text="THIS IS A THING", compound=CENTER)
+img_label.pack(pady=20)
 
 
 my_button = Button(root, image=login_btn, command=thing, borderwidth=0)
