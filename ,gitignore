@@ -1,3 +1,5 @@
+.gitignore 
+
 paint/
 paint.py
 painter.py
