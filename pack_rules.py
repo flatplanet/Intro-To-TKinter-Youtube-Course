@@ -5,6 +5,7 @@ root.title('Codemy.com')
 root.iconbitmap('c:/gui/codemy.ico')
 root.geometry("600x400")
 
+
 def grab():
 	my_label.config(text=my_box.get())
 
