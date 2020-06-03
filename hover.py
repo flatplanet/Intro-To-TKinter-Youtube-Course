@@ -28,9 +28,11 @@ my_pic = PhotoImage(file="images/aspen.png")
 my_label = Button(root, image=my_pic, command=do_something)
 my_label.pack(pady=20)
 
+def exit(e):
+	root.quit()
 
 my_label.bind("<Enter>", change)
 my_label.bind("<Leave>", change_back)
-
+my_label.bind("<Return>", exit)
 
 root.mainloop()
