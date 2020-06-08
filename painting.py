@@ -5,6 +5,7 @@ from tkinter import colorchooser
 import tkinter.ttk as ttk
 #from tkinter.ttk import *
 from tkinter import filedialog
+from tkinter import messagebox
 
 root = Tk()
 root.title('Codemy.com')
@@ -22,7 +23,7 @@ draw = ImageDraw.Draw(image1)
 
 
 
-my_canvas = Canvas(root, width=w, heigh=h, bg="white")
+my_canvas = Canvas(root, width=w, height=h, bg="white")
 my_canvas.pack(pady=20)
 
 brush_color = 'red'
@@ -54,17 +55,24 @@ def reset(event):    #reseting or cleaning the canvas
     old_y = None  
 
 
+
 def save_as_png():
-    thing = save_name.get()
-    if thing:
+    #thing = save_name.get()
+    result = filedialog.asksaveasfilename(initialdir = "c:/gui/images/", filetypes = (("png files","*.png"),("all files","*.*")))
+    result_label = Label(root, text=result)
+    if result.endswith('.png'):
+        pass
+    else:
+        result = result + '.png'
+    if result:
         x=root.winfo_rootx()+my_canvas.winfo_x()
         y=root.winfo_rooty()+my_canvas.winfo_y()
         x1=x+my_canvas.winfo_width()
         y1=y+my_canvas.winfo_height()
-        ImageGrab.grab().crop((x,y,x1,y1)).save(save_name.get())
-        save_name.delete(0,END)
-    else:
-        save_name.insert(0, "Enter Name")
+        ImageGrab.grab().crop((x,y,x1,y1)).save(result)
+        messagebox.showinfo("Image Saved", "Your Image Has Been Saved!")
+
+    
     
 
 '''
@@ -154,8 +162,6 @@ options_frame.grid(row=0, column=3, padx=50)
 
 clear_button = Button(options_frame, text="Clear Screen", command=clear).pack(padx=10, pady=10)
 
-save_name = Entry(options_frame)
-save_name.pack(pady=10, padx=10)
 my_button = Button(options_frame, text="Save To PNG", command=save_as_png).pack(padx=10, pady=10)
 
 
