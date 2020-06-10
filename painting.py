@@ -45,7 +45,8 @@ def paint(e):
     # Butt / slash
     # Round: circle round 
     # PROJECTING: Diamond
-
+    #my_canvas.create_line(0,100, 300, 100, fill="color")
+    #my_canvas.create_line(150,0, 150, 200, fill="color")
     my_canvas.create_line(x1, y1, x2, y2, width=penwidth, fill=brush_color, capstyle=brush_type.get(),smooth=True)
     old_x = e.x
     old_y = e.y
