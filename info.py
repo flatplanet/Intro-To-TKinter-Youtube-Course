@@ -6,27 +6,26 @@ root.title('Codemy.com')
 root.iconbitmap('c:/gui/codemy.ico')
 root.geometry("800x800+-1900+100")
 
-
-
 def info():
-	root.update_idletasks()
+	dimension_label = Label(root, text=root.winfo_geometry())
+	dimension_label.pack(pady=20)
 
-	print (root.winfo_width())
-	print (root.winfo_height())
-	print (root.winfo_geometry())
-	print (root.winfo_id())
-	print (root.winfo_x()) #upper left x coordinate
-	print (root.winfo_y()) #upper left y coordinate
-	
-	#root.resizable(0, 0)
-	h = 300
-	w = 200
-	#root.geometry('%ix%i' % (h,w)) 
-	#root.geometry('{height}x{width}'.format(height=h, width=w)) 
-	root.geometry(f'{h}x{w}') 
-	#'%0.0f' % float(my_slider.get())
+	height_label = Label(root, text="Height: " + str(root.winfo_height()))
+	height_label.pack(pady=20)
+	width_label = Label(root, text="Width: " + str(root.winfo_width()))
+	width_label.pack()
 
-Button(root, text="click", command=info).pack()
+	x_label = Label(root, text="X: " + str(root.winfo_x()))
+	x_label.pack(pady=20)
+	y_label = Label(root, text="Y: " + str(root.winfo_y()))
+	y_label.pack()
+
+
+my_button = Button(root, text="Click Me", command=info)
+my_button.pack(pady=20)
+
+
+
 
 
 root.mainloop()
