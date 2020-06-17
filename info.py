@@ -10,7 +10,7 @@ def info():
 	dimension_label = Label(root, text=root.winfo_geometry())
 	dimension_label.pack(pady=20)
 
-	height_label = Label(root, text="Height: " + str(root.winfo_height()))
+	height_label = Label(root, text=f"Height: {root.winfo_height()}")
 	height_label.pack(pady=20)
 	width_label = Label(root, text="Width: " + str(root.winfo_width()))
 	width_label.pack()
