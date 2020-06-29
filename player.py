@@ -23,6 +23,17 @@ def add_song():
 	# Add song to listbox
 	song_box.insert(END, song)
 
+# Add many songs to playlist
+def add_many_songs():
+	songs = filedialog.askopenfilenames(initialdir='audio/', title="Choose A Song", filetypes=(("mp3 Files", "*.mp3"), ))	
+
+	# Loop thru song list and replace directory info and mp3
+	for song in songs:
+		song = song.replace("C:/gui/audio/", "")
+		song = song.replace(".mp3", "")
+		# Insert into playlist
+		song_box.insert(END, song)
+
 # Play selected song
 def play():
 	song = song_box.get(ACTIVE)
@@ -36,8 +47,28 @@ def stop():
 	pygame.mixer.music.stop()
 	song_box.selection_clear(ACTIVE)
 
+# Create Global Pause Variable
+global paused
+paused = False
+
+# Pause and Unpause The Current Song
+def pause(is_paused):
+	global paused
+	paused = is_paused
+
+	if paused:
+		# Unpause
+		pygame.mixer.music.unpause()
+		paused = False
+	else:
+		# Pause
+		pygame.mixer.music.pause()
+		paused = True
+	
+
+
 # Create Playlist Box
-song_box = Listbox(root, bg="black", fg="green", width=60, selectbackground="gray", selectforeground="black")
+song_box = Listbox(root, bg="black", fg="green", width=60, selectbackground="green", selectforeground="black")
 song_box.pack(pady=20)
 
 # Define Player Control Button Images
@@ -55,7 +86,7 @@ controls_frame.pack()
 back_button = Button(controls_frame, image=back_btn_img, borderwidth=0)
 forward_button = Button(controls_frame, image=forward_btn_img, borderwidth=0)
 play_button = Button(controls_frame, image=play_btn_img, borderwidth=0, command=play)
-pause_button = Button(controls_frame, image=pause_btn_img, borderwidth=0)
+pause_button = Button(controls_frame, image=pause_btn_img, borderwidth=0, command=lambda: pause(paused))
 stop_button =  Button(controls_frame, image=stop_btn_img, borderwidth=0, command=stop)
 
 back_button.grid(row=0, column=0, padx=10)
@@ -68,9 +99,11 @@ stop_button.grid(row=0, column=4, padx=10)
 my_menu = Menu(root)
 root.config(menu=my_menu)
 
-# Add Add Song Menu 
+# Create Add Song Menu 
 add_song_menu = Menu(my_menu)
 my_menu.add_cascade(label="Add Songs", menu=add_song_menu)
 add_song_menu.add_command(label="Add One Song To Playlist", command=add_song)
+# Add Many Songs to playlist
+add_song_menu.add_command(label="Add Many Songs To Playlist", command=add_many_songs)
 
 root.mainloop()
