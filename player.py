@@ -8,7 +8,7 @@ import tkinter.ttk as ttk
 root = Tk()
 root.title('Codemy.com MP3 Player')
 root.iconbitmap('c:/gui/codemy.ico')
-root.geometry("500x450")
+root.geometry("500x400")
 
 # Initialze Pygame Mixer
 pygame.mixer.init()
@@ -16,11 +16,14 @@ pygame.mixer.init()
 
 # Grab Song Length Time Info
 def play_time():
+	# Check for double timing
+	if stopped:
+		return 
 	# Grab Current Song Elapsed Time
 	current_time = pygame.mixer.music.get_pos() / 1000
 
 	# throw up temp label to get data
-	slider_label.config(text=f'Slider: {int(my_slider.get())} and Song Pos: {int(current_time)}')
+	#slider_label.config(text=f'Slider: {int(my_slider.get())} and Song Pos: {int(current_time)}')
 	# convert to time format
 	converted_current_time = time.strftime('%M:%S', time.gmtime(current_time))
 
@@ -43,7 +46,8 @@ def play_time():
 	
 	if int(my_slider.get()) == int(song_length):
 		status_bar.config(text=f'Time Elapsed: {converted_song_length}  of  {converted_song_length}  ')
-
+	elif paused:
+		pass
 	elif int(my_slider.get()) == int(current_time):
 		# Update Slider To position
 		slider_position = int(song_length)
@@ -104,6 +108,9 @@ def add_many_songs():
 
 # Play selected song
 def play():
+	# Set Stopped Variable To False So Song Can Play
+	global stopped
+	stopped = False
 	song = song_box.get(ACTIVE)
 	song = f'C:/gui/audio/{song}.mp3'
 
@@ -118,15 +125,29 @@ def play():
 	#my_slider.config(to=slider_position, value=0)
 
 # Stop playing current song
+global stopped
+stopped = False
 def stop():
+	# Reset Slider and Status Bar
+	status_bar.config(text='')
+	my_slider.config(value=0)
+	# Stop Song From Playing
 	pygame.mixer.music.stop()
 	song_box.selection_clear(ACTIVE)
 
 	# Clear The Status Bar
 	status_bar.config(text='')
 
+	# Set Stop Variable To True
+	global stopped
+	stopped = True 
+
 # Play The Next Song in the playlist
 def next_song():
+	# Reset Slider and Status Bar
+	status_bar.config(text='')
+	my_slider.config(value=0)
+
 	# Get the current song tuple number
 	next_one = song_box.curselection() 
 	# Add one to the current song number
@@ -150,6 +171,9 @@ def next_song():
 
 # Play Previous Song In Playlist
 def previous_song():
+	# Reset Slider and Status Bar
+	status_bar.config(text='')
+	my_slider.config(value=0)
 	# Get the current song tuple number
 	next_one = song_box.curselection() 
 	# Add one to the current song number
@@ -173,6 +197,7 @@ def previous_song():
 
 # Delete A Song
 def delete_song():
+	stop()
 	# Delete Currently Selected Song
 	song_box.delete(ANCHOR)
 	# Stop Music if it's playing
@@ -180,6 +205,7 @@ def delete_song():
 
 # Delete All Songs from Playlist
 def delete_all_songs():
+	stop()
 	# Delete All Songs
 	song_box.delete(0, END)
 	# Stop Music if it's playing
@@ -267,7 +293,7 @@ my_slider = ttk.Scale(root, from_=0, to=100, orient=HORIZONTAL, value=0, command
 my_slider.pack(pady=30)
 
 # Create Temporary Slider Label
-slider_label = Label(root, text="0")
-slider_label.pack(pady=10)
+#slider_label = Label(root, text="0")
+#slider_label.pack(pady=10)
 
 root.mainloop()
