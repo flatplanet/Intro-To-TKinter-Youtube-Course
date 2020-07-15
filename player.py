@@ -128,6 +128,25 @@ def play():
 	#current_volume = pygame.mixer.music.get_volume()
 	#slider_label.config(text=current_volume * 100)
 
+	# Get current Volume
+	current_volume = pygame.mixer.music.get_volume()
+	# Times by 100 to make it easier to work with
+	current_volume = current_volume * 100
+	#slider_label.config(text=current_volume * 100)
+
+	# Change Volume Meter Picture
+	if int(current_volume) < 1:
+		volume_meter.config(image=vol0)
+	elif int(current_volume) > 0 and int(current_volume) <= 25:
+		volume_meter.config(image=vol1)
+	elif int(current_volume) >= 25 and int(current_volume) <= 50:
+		volume_meter.config(image=vol2)
+	elif int(current_volume) >= 50 and int(current_volume) <= 75:
+		volume_meter.config(image=vol3)
+	elif int(current_volume) >= 75 and int(current_volume) <= 100:
+		volume_meter.config(image=vol4)
+
+
 # Stop playing current song
 global stopped
 stopped = False
@@ -145,6 +164,24 @@ def stop():
 	# Set Stop Variable To True
 	global stopped
 	stopped = True 
+
+	# Get current Volume
+	current_volume = pygame.mixer.music.get_volume()
+	# Times by 100 to make it easier to work with
+	current_volume = current_volume * 100
+	#slider_label.config(text=current_volume * 100)
+
+	# Change Volume Meter Picture
+	if int(current_volume) < 1:
+		volume_meter.config(image=vol0)
+	elif int(current_volume) > 0 and int(current_volume) <= 25:
+		volume_meter.config(image=vol1)
+	elif int(current_volume) >= 25 and int(current_volume) <= 50:
+		volume_meter.config(image=vol2)
+	elif int(current_volume) >= 50 and int(current_volume) <= 75:
+		volume_meter.config(image=vol3)
+	elif int(current_volume) >= 75 and int(current_volume) <= 100:
+		volume_meter.config(image=vol4)
 
 # Play The Next Song in the playlist
 def next_song():
@@ -247,8 +284,22 @@ def volume(x):
 	pygame.mixer.music.set_volume(volume_slider.get())
 	
 	# Get current Volume
-	#current_volume = pygame.mixer.music.get_volume()
+	current_volume = pygame.mixer.music.get_volume()
+	# Times by 100 to make it easier to work with
+	current_volume = current_volume * 100
 	#slider_label.config(text=current_volume * 100)
+
+	# Change Volume Meter Picture
+	if int(current_volume) < 1:
+		volume_meter.config(image=vol0)
+	elif int(current_volume) > 0 and int(current_volume) <= 25:
+		volume_meter.config(image=vol1)
+	elif int(current_volume) >= 25 and int(current_volume) <= 50:
+		volume_meter.config(image=vol2)
+	elif int(current_volume) >= 50 and int(current_volume) <= 75:
+		volume_meter.config(image=vol3)
+	elif int(current_volume) >= 75 and int(current_volume) <= 100:
+		volume_meter.config(image=vol4)	
 
 # Create Master Frame
 master_frame = Frame(root)
@@ -265,13 +316,29 @@ play_btn_img =  PhotoImage(file='images/play50.png')
 pause_btn_img =  PhotoImage(file='images/pause50.png')
 stop_btn_img =  PhotoImage(file='images/stop50.png')
 
+# Define Volume Control Images
+global vol0
+global vol1
+global vol2
+global vol3
+global vol4
+vol0 = PhotoImage(file='images/volume0.png')
+vol1 = PhotoImage(file='images/volume1.png')
+vol2 = PhotoImage(file='images/volume2.png')
+vol3 = PhotoImage(file='images/volume3.png')
+vol4 = PhotoImage(file='images/volume4.png')
+
 # Create Player Control Frame
 controls_frame = Frame(master_frame)
 controls_frame.grid(row=1, column=0, pady=20)
 
+# Create Volume Meter
+volume_meter = Label(master_frame, image=vol0)
+volume_meter.grid(row=1, column=1, padx=10)
+
 # Create Volume Label Frame
 volume_frame = LabelFrame(master_frame, text="Volume")
-volume_frame.grid(row=0, column=1, padx=20)
+volume_frame.grid(row=0, column=1, padx=30)
 
 # Create Player Control Buttons
 back_button = Button(controls_frame, image=back_btn_img, borderwidth=0, command=previous_song)
