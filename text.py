@@ -7,7 +7,7 @@ root.geometry("500x450")
 
 # Create Clear Function
 def clear():
-	my_text.delete(1.0, END)
+	my_text.delete(1.5, END)
 
 # Grab the text from the text box
 def get_text():
