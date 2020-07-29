@@ -13,9 +13,4 @@ Learn To Code at Codemy.com
 
 
 
-
-
-
-
-
-
+PS...Tkinter Rocks!
