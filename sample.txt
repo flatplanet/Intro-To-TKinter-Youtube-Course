@@ -1,16 +1,2 @@
-This is a sample text file.
+This is a new sample 1 file!
 
-My name is John Elder and I run Codemy.com
-
-
-
-Best Wishes,
-
--John Elder
-Learn To Code at Codemy.com
-
-
-
-
-
-PS...Tkinter Rocks!
