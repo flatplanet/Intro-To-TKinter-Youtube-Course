@@ -76,8 +76,11 @@ def save_file():
 		text_file.write(my_text.get(1.0, END))
 		# Close the file
 		text_file.close()
-
+		# Put status update or popup code
 		status_bar.config(text=f'Saved: {open_status_name}        ')
+		name = open_status_name
+		name = name.replace("C:/gui/", "")
+		root.title(f'{name} - TextPad!')
 	else:
 		save_as_file()
 
