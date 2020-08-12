@@ -1,2 +1,24 @@
-This is a new sample 1 file!
+This is a sample text file!
+
+Learn To Code at Codemy.com!  Use coupon code: 
+  youtube1 
+
+To get $30 off Membership!
+
+
+
+
+Best wishes,
+
+John Elder
+Codemy.com
+
+
+
+
+
+PS...TKinter rocks!!!!!!!
+
+
+
 
