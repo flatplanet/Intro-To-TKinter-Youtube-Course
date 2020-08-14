@@ -5,7 +5,7 @@ from tkinter import font
 root = Tk()
 root.title('Codemy.com - TextPad!')
 root.iconbitmap('c:/gui/codemy.ico')
-root.geometry("1200x660")
+root.geometry("1200x680")
 
 
 # Set variable for open file name
@@ -120,10 +120,10 @@ def copy_text(e):
 
 
 
-# Pate Text
+# Paste Text
 def paste_text(e):
 	global selected
-	#Check to see if keyboard shutcut used
+	#Check to see if keyboard shortcut used
 	if e:
 		selected = root.clipboard_get()
 	else:
@@ -140,12 +140,17 @@ my_frame.pack(pady=5)
 text_scroll = Scrollbar(my_frame)
 text_scroll.pack(side=RIGHT, fill=Y)
 
+# Horizontal Scrollbar
+hor_scroll = Scrollbar(my_frame, orient='horizontal')
+hor_scroll.pack(side=BOTTOM, fill=X)
+
 # Create Text Box
-my_text = Text(my_frame, width=97, height=25, font=("Helvetica", 16), selectbackground="yellow", selectforeground="black", undo=True, yscrollcommand=text_scroll.set)
+my_text = Text(my_frame, width=97, height=25, font=("Helvetica", 16), selectbackground="yellow", selectforeground="black", undo=True, yscrollcommand=text_scroll.set, wrap="none", xscrollcommand=hor_scroll.set)
 my_text.pack()
 
 # Configure our Scrollbar
 text_scroll.config(command=my_text.yview)
+hor_scroll.config(command=my_text.xview)
 
 # Create Menu
 my_menu = Menu(root)
@@ -157,22 +162,23 @@ my_menu.add_cascade(label="File", menu=file_menu)
 file_menu.add_command(label="New", command=new_file)
 file_menu.add_command(label="Open", command=open_file)
 file_menu.add_command(label="Save", command=save_file)
-file_menu.add_command(label="Save As", command=save_as_file)
+file_menu.add_command(label="Save As...", command=save_as_file)
 file_menu.add_separator()
 file_menu.add_command(label="Exit", command=root.quit)
 
 # Add Edit Menu
 edit_menu = Menu(my_menu, tearoff=False)
 my_menu.add_cascade(label="Edit", menu=edit_menu)
-edit_menu.add_command(label="Cut     (Ctrl+x)", command=lambda: cut_text(False))
-edit_menu.add_command(label="Copy    (Ctrl+c)", command=lambda: copy_text(False))
-edit_menu.add_command(label="Paste   (Ctrl+v)", command=lambda: paste_text(False))
-edit_menu.add_command(label="Undo")
-edit_menu.add_command(label="Redo")
+edit_menu.add_command(label="Cut", command=lambda: cut_text(False), accelerator="(Ctrl+x)")
+edit_menu.add_command(label="Copy", command=lambda: copy_text(False), accelerator="(Ctrl+c)")
+edit_menu.add_command(label="Paste             ", command=lambda: paste_text(False), accelerator="(Ctrl+v)")
+edit_menu.add_separator()
+edit_menu.add_command(label="Undo", command=my_text.edit_undo, accelerator="(Ctrl+z)")
+edit_menu.add_command(label="Redo", command=my_text.edit_redo, accelerator="(Ctrl+y)")
 
 # Add Status Bar To Bottom Of App
 status_bar = Label(root, text='Ready        ', anchor=E)
-status_bar.pack(fill=X, side=BOTTOM, ipady=5)
+status_bar.pack(fill=X, side=BOTTOM, ipady=15)
 
 # Edit Bindings
 root.bind('<Control-Key-x>', cut_text)
