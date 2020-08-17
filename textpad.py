@@ -117,9 +117,6 @@ def copy_text(e):
 		root.clipboard_clear()
 		root.clipboard_append(selected)
 
-
-
-
 # Paste Text
 def paste_text(e):
 	global selected
@@ -131,6 +128,46 @@ def paste_text(e):
 			position = my_text.index(INSERT)
 			my_text.insert(position, selected)
 
+# Bold Text
+def bold_it():
+	# Create our font
+	bold_font = font.Font(my_text, my_text.cget("font"))
+	bold_font.configure(weight="bold")
+
+	# Configure a tag
+	my_text.tag_configure("bold", font=bold_font)
+
+	# Define Current tags
+	current_tags = my_text.tag_names("sel.first")
+
+	# If statment to see if tag has been set
+	if "bold" in current_tags:
+		my_text.tag_remove("bold", "sel.first", "sel.last")
+	else:
+		my_text.tag_add("bold", "sel.first", "sel.last")
+
+# Italics Text
+def italics_it():
+	# Create our font
+	italics_font = font.Font(my_text, my_text.cget("font"))
+	italics_font.configure(slant="italic")
+
+	# Configure a tag
+	my_text.tag_configure("italic", font=italics_font)
+
+	# Define Current tags
+	current_tags = my_text.tag_names("sel.first")
+
+	# If statment to see if tag has been set
+	if "italic" in current_tags:
+		my_text.tag_remove("italic", "sel.first", "sel.last")
+	else:
+		my_text.tag_add("italic", "sel.first", "sel.last")
+
+
+# Create a toolbar frame
+toolbar_frame = Frame(root)
+toolbar_frame.pack(fill=X)
 
 # Create Main Frame
 my_frame = Frame(root)
@@ -184,5 +221,25 @@ status_bar.pack(fill=X, side=BOTTOM, ipady=15)
 root.bind('<Control-Key-x>', cut_text)
 root.bind('<Control-Key-c>', copy_text)
 root.bind('<Control-Key-v>', paste_text)
+
+fee = "John Elder"
+my_label = Label(root, text=fee[:-1]).pack()
+
+# Create Buttons
+
+# Bold Button
+bold_button = Button(toolbar_frame, text="Bold", command=bold_it)
+bold_button.grid(row=0, column=0, sticky=W, padx=5)
+# Italics Button
+italics_button = Button(toolbar_frame, text="Italics", command=italics_it)
+italics_button.grid(row=0, column=1, padx=5)
+
+# Undo/Redo Buttons
+undo_button = Button(toolbar_frame, text="Undo", command=my_text.edit_undo)
+undo_button.grid(row=0, column=2, padx=5)
+redo_button = Button(toolbar_frame, text="Redo", command=my_text.edit_redo)
+redo_button.grid(row=0, column=3, padx=5)
+
+
 
 root.mainloop()
