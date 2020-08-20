@@ -2,6 +2,9 @@ from tkinter import *
 from tkinter import filedialog
 from tkinter import font
 from tkinter import colorchooser
+import os, sys
+import win32print
+import win32api
 
 root = Tk()
 root.title('Codemy.com - TextPad!')
@@ -197,6 +200,18 @@ def all_text_color():
 	if my_color:
 		my_text.config(fg=my_color)
 
+# Print File Function
+def print_file():
+	#printer_name = win32print.GetDefaultPrinter()
+	#status_bar.config(text=printer_name)
+	
+	# Grab Filename
+	file_to_print = filedialog.askopenfilename(initialdir="C:/gui/", title="Open File", filetypes=(("Text Files", "*.txt"), ("HTML Files", "*.html"), ("Python Files", "*.py"), ("All Files", "*.*")))
+
+	if file_to_print:
+		win32api.ShellExecute(0, "print", file_to_print, None, ".", 0)
+
+
 # Create a toolbar frame
 toolbar_frame = Frame(root)
 toolbar_frame.pack(fill=X)
@@ -233,6 +248,8 @@ file_menu.add_command(label="Open", command=open_file)
 file_menu.add_command(label="Save", command=save_file)
 file_menu.add_command(label="Save As...", command=save_as_file)
 file_menu.add_separator()
+file_menu.add_command(label="Print File", command=print_file)
+file_menu.add_separator()
 file_menu.add_command(label="Exit", command=root.quit)
 
 # Add Edit Menu
@@ -262,8 +279,8 @@ root.bind('<Control-Key-x>', cut_text)
 root.bind('<Control-Key-c>', copy_text)
 root.bind('<Control-Key-v>', paste_text)
 
-fee = "John Elder"
-my_label = Label(root, text=fee[:-1]).pack()
+#fee = "John Elder"
+#my_label = Label(root, text=fee[:-1]).pack()
 
 # Create Buttons
 
