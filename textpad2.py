@@ -213,12 +213,11 @@ def print_file():
 		# Print the file
 		win32api.ShellExecute(0, "print", file_to_print, None, ".", 0)
 
-# Select all Text
 def select_all(e):
-	# Add sel tag to select all text
+	#my_text.selection(SEL_FIRST, SEL_LAST)
 	my_text.tag_add('sel', '1.0', 'end')
 
-# Clear All Text
+	#my_text.tag_configure("sel", background="#f5f242")
 def clear_all():
 	my_text.delete(1.0, END)
 
@@ -274,7 +273,6 @@ edit_menu.add_command(label="Redo", command=my_text.edit_redo, accelerator="(Ctr
 edit_menu.add_separator()
 edit_menu.add_command(label="Select All", command=lambda: select_all(True), accelerator="(Ctrl+a)")
 edit_menu.add_command(label="Clear", command=clear_all)
-
 # Add Color Menu
 color_menu = Menu(my_menu, tearoff=False)
 my_menu.add_cascade(label="Colors", menu=color_menu)
@@ -291,10 +289,9 @@ status_bar.pack(fill=X, side=BOTTOM, ipady=15)
 root.bind('<Control-Key-x>', cut_text)
 root.bind('<Control-Key-c>', copy_text)
 root.bind('<Control-Key-v>', paste_text)
-# Select Binding
-root.bind('Control-A', select_all)
-root.bind('Control-a', select_all)
 
+root.bind('<Control-A>', select_all)
+root.bind('<Control-a>', select_all)
 
 #fee = "John Elder"
 #my_label = Label(root, text=fee[:-1]).pack()
