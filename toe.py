@@ -157,6 +157,11 @@ def checkifwon():
 		messagebox.showinfo("Tic Tac Toe", "CONGRATULATIONS!  O Wins!!")
 		disable_all_buttons()
 
+	# Check if tie
+	if count == 9 and winner == False:
+		messagebox.showinfo("Tic Tac Toe", "It's A Tie!\n No One Wins!")
+		disable_all_buttons()
+				
 # Button clicked function
 def b_click(b):
 	global clicked, count
