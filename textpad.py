@@ -222,6 +222,55 @@ def select_all(e):
 def clear_all():
 	my_text.delete(1.0, END)
 
+# Turn on Night Mode
+def night_on():
+	main_color = "#000000"
+	second_color = "#373737"
+	text_color = "green"
+
+	root.config(bg=main_color)
+	status_bar.config(bg=main_color, fg=text_color)
+	my_text.config(bg=second_color)
+	toolbar_frame.config(bg=main_color)
+	# toolbar buttons
+	bold_button.config(bg=second_color)
+	italics_button.config(bg=second_color)
+	redo_button.config(bg=second_color)
+	undo_button.config(bg=second_color)
+	color_text_button.config(bg=second_color)
+	# file menu colors
+	file_menu.config(bg=main_color, fg=text_color)
+	edit_menu.config(bg=main_color, fg=text_color)
+	color_menu.config(bg=main_color, fg=text_color)
+	options_menu.config(bg=main_color, fg=text_color)
+
+
+# Turn Off Night Mode:
+def night_off():
+	main_color = "SystemButtonFace"
+	second_color = "SystemButtonFace"
+	text_color = "black"
+
+	root.config(bg=main_color)
+	status_bar.config(bg=main_color, fg=text_color)
+	my_text.config(bg="white")
+	toolbar_frame.config(bg=main_color)
+	# toolbar buttons
+	bold_button.config(bg=second_color)
+	italics_button.config(bg=second_color)
+	redo_button.config(bg=second_color)
+	undo_button.config(bg=second_color)
+	color_text_button.config(bg=second_color)
+	# file menu colors
+	file_menu.config(bg=main_color, fg=text_color)
+	edit_menu.config(bg=main_color, fg=text_color)
+	color_menu.config(bg=main_color, fg=text_color)
+	options_menu.config(bg=main_color, fg=text_color)
+
+
+
+
+
 # Create a toolbar frame
 toolbar_frame = Frame(root)
 toolbar_frame.pack(fill=X)
@@ -282,6 +331,12 @@ color_menu.add_command(label="Selected Text", command=text_color)
 color_menu.add_command(label="All Text", command=all_text_color)
 color_menu.add_command(label="Background", command=bg_color)
 
+# Add Options Menu
+options_menu = Menu(my_menu, tearoff=False)
+my_menu.add_cascade(label="Options", menu=options_menu)
+options_menu.add_command(label="Night Mode On", command=night_on)
+options_menu.add_command(label="Night Mode Off", command=night_off)
+
 
 # Add Status Bar To Bottom Of App
 status_bar = Label(root, text='Ready        ', anchor=E)
@@ -303,20 +358,20 @@ root.bind('<Control-a>', select_all)
 
 # Bold Button
 bold_button = Button(toolbar_frame, text="Bold", command=bold_it)
-bold_button.grid(row=0, column=0, sticky=W, padx=5)
+bold_button.grid(row=0, column=0, sticky=W, padx=5, pady=5)
 # Italics Button
 italics_button = Button(toolbar_frame, text="Italics", command=italics_it)
-italics_button.grid(row=0, column=1, padx=5)
+italics_button.grid(row=0, column=1, padx=5, pady=5)
 
 # Undo/Redo Buttons
 undo_button = Button(toolbar_frame, text="Undo", command=my_text.edit_undo)
-undo_button.grid(row=0, column=2, padx=5)
+undo_button.grid(row=0, column=2, padx=5, pady=5)
 redo_button = Button(toolbar_frame, text="Redo", command=my_text.edit_redo)
-redo_button.grid(row=0, column=3, padx=5)
+redo_button.grid(row=0, column=3, padx=5, pady=5)
 
 # Text Color
 color_text_button = Button(toolbar_frame, text="Text Color", command=text_color)
-color_text_button.grid(row=0, column=4, padx=5)
+color_text_button.grid(row=0, column=4, padx=5, pady=5)
 
 
 root.mainloop()
