@@ -7,6 +7,22 @@ root.title('Codemy.com - TreeView')
 root.iconbitmap('c:/gui/codemy.ico')
 root.geometry("500x600")
 
+# Add some style
+style = ttk.Style()
+#Pick a theme
+style.theme_use("default")
+# Configure our treeview colors
+
+style.configure("Treeview", 
+	background="#D3D3D3",
+	foreground="black",
+	rowheight=25,
+	fieldbackground="#D3D3D3"
+	)
+# Change selected color
+style.map('Treeview', 
+	background=[('selected', 'blue')])
+
 my_tree = ttk.Treeview(root)
 
 # Define Our Columns
