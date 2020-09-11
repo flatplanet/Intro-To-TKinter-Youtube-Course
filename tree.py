@@ -23,7 +23,21 @@ style.configure("Treeview",
 style.map('Treeview', 
 	background=[('selected', 'blue')])
 
-my_tree = ttk.Treeview(root)
+# Create Treeview Frame
+tree_frame = Frame(root)
+tree_frame.pack(pady=20)
+
+# Treeview Scrollbar
+tree_scroll = Scrollbar(tree_frame)
+tree_scroll.pack(side=RIGHT, fill=Y)
+
+# Create Treeview
+my_tree = ttk.Treeview(tree_frame, yscrollcommand=tree_scroll.set, selectmode="extended")
+# Pack to the screen
+my_tree.pack()
+
+#Configure the scrollbar
+tree_scroll.config(command=my_tree.yview)
 
 # Define Our Columns
 my_tree['columns'] = ("Name", "ID", "Favorite Pizza")
@@ -46,13 +60,42 @@ data = [
 	["Mary", 2, "Cheese"],
 	["Tim", 3, "Mushroom"],
 	["Erin", 4, "Ham"],
-	["Bob", 5, "Onion"]
+	["Bob", 5, "Onion"],
+	["Steve", 6, "Peppers"],
+	["Tina", 7, "Cheese"],
+	["Mark", 8, "Supreme"],
+	["John", 1, "Pepperoni"],
+	["Mary", 2, "Cheese"],
+	["Tim", 3, "Mushroom"],
+	["Erin", 4, "Ham"],
+	["Bob", 5, "Onion"],
+	["Steve", 6, "Peppers"],
+	["Tina", 7, "Cheese"],
+	["Mark", 8, "Supreme"],
+	["John", 1, "Pepperoni"],
+	["Mary", 2, "Cheese"],
+	["Tim", 3, "Mushroom"],
+	["Erin", 4, "Ham"],
+	["Bob", 5, "Onion"],
+	["Steve", 6, "Peppers"],
+	["Tina", 7, "Cheese"],
+	["Mark", 8, "Supreme"],
+	["Ruth", 9, "Vegan"]
 ]
+
+# Create striped row tags
+my_tree.tag_configure('oddrow', background="white")
+my_tree.tag_configure('evenrow', background="lightblue")
 
 global count
 count=0
+
 for record in data:
-	my_tree.insert(parent='', index='end', iid=count, text="", values=(record[0], record[1], record[2]))
+	if count % 2 == 0:
+		my_tree.insert(parent='', index='end', iid=count, text="", values=(record[0], record[1], record[2]), tags=('evenrow',))
+	else:
+		my_tree.insert(parent='', index='end', iid=count, text="", values=(record[0], record[1], record[2]), tags=('oddrow',))
+
 	count += 1
 
 
@@ -68,8 +111,7 @@ my_tree.insert(parent='', index='end', iid=5, text="", values=("Wes", "6", "Onio
 #my_tree.insert(parent='', index='end', iid=6, text="Child", values=("Steve", "1.2", "Peppers"))
 #my_tree.move('6', '0', '0')
 
-# Pack to the screen
-my_tree.pack(pady=20)
+
 
 add_frame = Frame(root)
 add_frame.pack(pady=20)
@@ -96,8 +138,15 @@ topping_box.grid(row=1, column=2)
 
 # Add Record
 def add_record():
+	my_tree.tag_configure('oddrow', background="white")
+	my_tree.tag_configure('evenrow', background="lightblue")
+
 	global count
-	my_tree.insert(parent='', index='end', iid=count, text="", values=(name_box.get(), id_box.get(), topping_box.get()))
+	if count % 2 == 0:
+		my_tree.insert(parent='', index='end', iid=count, text="", values=(name_box.get(), id_box.get(), topping_box.get()), tags=('evenrow',))
+	else:
+		my_tree.insert(parent='', index='end', iid=count, text="", values=(name_box.get(), id_box.get(), topping_box.get()), tags=('oddrow',))
+
 	count += 1
 
 	# Clear the boxes
