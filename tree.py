@@ -5,7 +5,7 @@ from tkinter import ttk
 root = Tk()
 root.title('Codemy.com - TreeView')
 root.iconbitmap('c:/gui/codemy.ico')
-root.geometry("500x600")
+root.geometry("500x750")
 
 # Add some style
 style = ttk.Style()
@@ -170,10 +170,47 @@ def remove_many():
 	for record in x:
 		my_tree.delete(record)
 
+# Select Record
+def select_record():
+	# Clear entry boxes
+	name_box.delete(0, END)
+	id_box.delete(0, END)
+	topping_box.delete(0, END)
 
+	# Grab record number
+	selected = my_tree.focus()
+	# Grab record values
+	values = my_tree.item(selected, 'values')
+
+	#temp_label.config(text=values[0])
+
+	# output to entry boxes
+	name_box.insert(0, values[0])
+	id_box.insert(0, values[1])
+	topping_box.insert(0, values[2])
+
+
+# Save updated record
+def update_record():
+	# Grab record number
+	selected = my_tree.focus()
+	# Save new data
+	my_tree.item(selected, text="", values=(name_box.get(), id_box.get(), topping_box.get()))
+
+	# Clear entry boxes
+	name_box.delete(0, END)
+	id_box.delete(0, END)
+	topping_box.delete(0, END)
+
+	
 #Buttons
+select_button = Button(root, text="Select Record", command=select_record)
+select_button.pack(pady=20)
+
+update_button = Button(root, text="Save Record", command=update_record)
+update_button.pack(pady=10)
 add_record = Button(root, text="Add Record", command=add_record)
-add_record.pack(pady=20)
+add_record.pack(pady=10)
 
 # Remove all
 remove_all = Button(root, text="Remove All Records", command=remove_all)
@@ -186,5 +223,10 @@ remove_one.pack(pady=10)
 # Remove Many Selected
 remove_many = Button(root, text="Remove Many Selected", command=remove_many)
 remove_many.pack(pady=10)
+
+temp_label = Label(root, text="")
+temp_label.pack(pady=20)
+
+
 
 root.mainloop()
