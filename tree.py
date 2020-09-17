@@ -5,7 +5,7 @@ from tkinter import ttk
 root = Tk()
 root.title('Codemy.com - TreeView')
 root.iconbitmap('c:/gui/codemy.ico')
-root.geometry("500x750")
+root.geometry("500x800")
 
 # Add some style
 style = ttk.Style()
@@ -202,10 +202,33 @@ def update_record():
 	id_box.delete(0, END)
 	topping_box.delete(0, END)
 
-	
+# Create Binding Click function
+def clicker(e):
+	select_record()
+
+# Move Row up
+def up():
+	rows = my_tree.selection()
+	for row in rows:
+		my_tree.move(row, my_tree.parent(row), my_tree.index(row)-1)
+
+# Move Row Down
+def down():
+	rows = my_tree.selection()
+	for row in reversed(rows):
+		my_tree.move(row, my_tree.parent(row), my_tree.index(row)+1)
+
+
+
 #Buttons
+move_up = Button(root, text="Move Up", command=up)
+move_up.pack(pady=20)
+
+move_down = Button(root, text="Move Down", command=down)
+move_down.pack(pady=10)
+
 select_button = Button(root, text="Select Record", command=select_record)
-select_button.pack(pady=20)
+select_button.pack(pady=10)
 
 update_button = Button(root, text="Save Record", command=update_record)
 update_button.pack(pady=10)
@@ -227,6 +250,9 @@ remove_many.pack(pady=10)
 temp_label = Label(root, text="")
 temp_label.pack(pady=20)
 
+# Bindings
+#my_tree.bind("<Double-1>", clicker)
+my_tree.bind("<ButtonRelease-1>", clicker)
 
 
 root.mainloop()
