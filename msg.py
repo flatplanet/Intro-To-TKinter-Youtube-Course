@@ -16,11 +16,13 @@ def choice(option):
 
 
 def clicker():
+
 	global pop
 	pop = Toplevel(root)
 	pop.title("My Popup")
 	pop.geometry("250x150")
 	pop.config(bg="green")
+	#pop.grab_set()
 
 	global me
 	me = PhotoImage(file="images/me_head_gr.png")
