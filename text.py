@@ -28,4 +28,6 @@ get_text_button.grid(row=0, column=1, padx=20)
 my_label = Label(root, text='')
 my_label.pack(pady=20)
 
+
+
 root.mainloop()
