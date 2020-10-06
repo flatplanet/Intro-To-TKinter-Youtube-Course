@@ -8,6 +8,7 @@ root.iconbitmap('c:/gui/codemy.ico')
 
 # X starts so true
 clicked = True
+#counter to check win/loss/tie
 count = 0
 
 
