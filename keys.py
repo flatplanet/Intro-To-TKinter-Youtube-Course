@@ -16,10 +16,10 @@ def something():
 my_button = Button(root, text="Click Me!", command=something)
 my_button.pack()
 
-for key in my_button.keys():
+for key in my_label.keys():
 	print(key)
 
-print(my_button['command'])
+print(my_label['font'])
 
 
 
