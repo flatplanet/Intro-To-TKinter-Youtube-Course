@@ -31,13 +31,13 @@ button_list = [button_1, button_2, button_3, button_4]
 
 # Define row number
 row_number = 0
-weigth_number = 1
+weight_number = 1
 #loop thru the list and config each row automatically
 for button in button_list:
-	Grid.rowconfigure(root, row_number, weight=weigth_number)
+	Grid.rowconfigure(root, row_number, weight=weight_number)
 	# Increment the counter
 	row_number += 1
-	weigth_number += 1 
+	weight_number += 1 
 
 
 root.mainloop()
