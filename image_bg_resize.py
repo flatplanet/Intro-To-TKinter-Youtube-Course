@@ -29,7 +29,7 @@ button2_window = my_canvas.create_window(100, 10, anchor="nw", window=button2)
 button3_window = my_canvas.create_window(230, 10, anchor="nw", window=button3)
 
 def resizer(e):
-	#global bg1, resized_bg, new_bg
+	global bg1, resized_bg, new_bg
 	# Open our image
 	bg1 = Image.open("images/mario.png")
 	# Resize the image

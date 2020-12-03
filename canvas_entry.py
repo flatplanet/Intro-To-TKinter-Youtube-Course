@@ -23,7 +23,6 @@ def welcome():
 	un_entry.destroy()
 	pw_entry.destroy()
 	login_btn.destroy()
-
 	# Add a welcome message
 	my_canvas.create_text(160, 450, text="Welcome!", font=("Helvetica", 40), fill="white")
 
