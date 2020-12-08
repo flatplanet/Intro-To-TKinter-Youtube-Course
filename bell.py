@@ -26,5 +26,5 @@ my_button = Button(root,
 my_button.pack(pady=20)
 
 
-root.bell()
+
 root.mainloop()
