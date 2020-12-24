@@ -1,5 +1,7 @@
 from tkinter import *
 from tkinter.font import Font
+from tkinter import filedialog
+import pickle
 
 root = Tk()
 root.title('Codemy.com - ToDo List!')
@@ -31,10 +33,10 @@ my_list = Listbox(my_frame,
 my_list.pack(side=LEFT, fill=BOTH)
 
 # Create dummy list
-stuff = ["Walk The Dog", "Buy Groceries", "Take A Nap", "Learn Tkinter", "Rule The World"]
+#stuff = ["Walk The Dog", "Buy Groceries", "Take A Nap", "Learn Tkinter", "Rule The World"]
 # Add dummy list to list box
-for item in stuff:
-	my_list.insert(END, item)
+#for item in stuff:
+#	my_list.insert(END, item)
 
 # Create scrollbar
 my_scrollbar = Scrollbar(my_frame)
@@ -45,7 +47,7 @@ my_list.config(yscrollcommand=my_scrollbar.set)
 my_scrollbar.config(command=my_list.yview)
 
 # create entry box to add items to the list
-my_entry = Entry(root, font=("Helvetica", 24))
+my_entry = Entry(root, font=("Helvetica", 24), width=26)
 my_entry.pack(pady=20)
 
 # Create a button frame
@@ -81,9 +83,85 @@ def delete_crossed():
 	while count < my_list.size():
 		if my_list.itemcget(count, "fg") == "#dedede":
 			my_list.delete(my_list.index(count))
+		
+		else: 
+			count += 1
 
-		count += 1
+def save_list():
+	file_name = filedialog.asksaveasfilename(
+		initialdir="C:/gui/data",
+		title="Save File",
+		filetypes=(
+			("Dat Files", "*.dat"), 
+			("All Files", "*.*"))
+		)
+	if file_name:
+		if file_name.endswith(".dat"):
+			pass
+		else:
+			file_name = f'{file_name}.dat'
 
+		# Delete crossed off items before saving
+		count = 0
+		while count < my_list.size():
+			if my_list.itemcget(count, "fg") == "#dedede":
+				my_list.delete(my_list.index(count))
+			
+			else: 
+				count += 1
+
+		# grab all the stuff from the list
+		stuff = my_list.get(0, END)
+
+		# Open the file
+		output_file = open(file_name, 'wb')
+
+		# Actually add the stuff to the file
+		pickle.dump(stuff, output_file)
+
+
+def open_list():
+	file_name = filedialog.askopenfilename(
+		initialdir="C:/gui/data",
+		title="Open File",
+		filetypes=(
+			("Dat Files", "*.dat"), 
+			("All Files", "*.*"))
+		)
+
+	if file_name:
+		# Delete currently open list
+		my_list.delete(0, END)
+
+		# Open the file
+		input_file = open(file_name, 'rb')
+
+		# Load the data from the file
+		stuff = pickle.load(input_file)
+
+		# Output stuff to the screen
+		for item in stuff:
+			my_list.insert(END, item)
+
+
+
+
+
+def delete_list():
+	my_list.delete(0, END)
+
+# Create Menu
+my_menu = Menu(root)
+root.config(menu=my_menu)
+
+# Add items to the menu
+file_menu = Menu(my_menu, tearoff=False)
+my_menu.add_cascade(label="File", menu=file_menu)
+# Add dropdown items
+file_menu.add_command(label="Save List", command=save_list)
+file_menu.add_command(label="Open List", command=open_list)
+file_menu.add_separator()
+file_menu.add_command(label="Clear List", command=delete_list)
 
 
 # Add some buttons
