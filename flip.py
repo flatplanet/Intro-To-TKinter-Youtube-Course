@@ -6,7 +6,7 @@ root.iconbitmap('c:/gui/codemy.ico')
 root.geometry("500x300")
 
 # Keep track of the button state on/off
-global is_on
+#global is_on
 is_on = True
 
 
