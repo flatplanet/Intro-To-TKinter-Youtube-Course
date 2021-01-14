@@ -5,72 +5,70 @@ root.title('Codemy.com - Auto Select/Search')
 root.iconbitmap('c:/gui/codemy.ico')
 root.geometry("500x300")
 
-# Update the list box
+# Update the listbox
 def update(data):
 	# Clear the listbox
 	my_list.delete(0, END)
 
-	# Add data to the listbox
+	# Add toppings to listbox
 	for item in data:
 		my_list.insert(END, item)
 
+# Update entry box with listbox clicked
+def fillout(e):
+	# Delete whatever is in the entry box
+	my_entry.delete(0, END)
 
-# Create Function to check typed things
+	# Add clicked list item to entry box
+	my_entry.insert(0, my_list.get(ACTIVE))
+
+# Create function to check entry vs listbox
 def check(e):
-	# Grab whatever was typed in the entry box
+	# grab what was typed
 	typed = my_entry.get()
 
 	if typed == '':
 		data = toppings
 	else:
 		data = []
-		for item in toppings: 
+		for item in toppings:
 			if typed.lower() in item.lower():
 				data.append(item)
 
-	# Pass updated listbox data to update function
-	update(data)
+	# update our listbox with selected items
+	update(data)				
 
 
 
-# Add Listbox Clicked to Entry Box
-def fillout(e):
-	# Delete whatever is in the entry box already
-	my_entry.delete(0, END)
-
-	# Add clicked to entry box
-	my_entry.insert(0, my_list.get(ACTIVE))
 
 
-# Make a label
+
+
+# Create a label
 my_label = Label(root, text="Start Typing...",
-	font=("Helvetica", 14),
-	fg="grey")
+	font=("Helvetica", 14), fg="grey")
 
 my_label.pack(pady=20)
 
-# Make our entry box
+# Create an entry box
 my_entry = Entry(root, font=("Helvetica", 20))
 my_entry.pack()
 
-# Make a Listbox
+# Create a listbox
 my_list = Listbox(root, width=50)
 my_list.pack(pady=40)
 
-# Bind the listbox to add clicked to entry box
-my_list.bind("<<ListboxSelect>>", fillout)
-
-
 # Create a list of pizza toppings
-toppings = ["Pepperoni", "Peppers", "Mushroom",
-	"Cheese", "Onion", "Ham", "Taco"]
+toppings = ["Pepperoni", "Peppers", "Mushrooms",
+	"Cheese", "Onions", "Ham", "Taco"]
 
-# Add our toppings to the list box
+# Add the toppings to our list
 update(toppings)
 
-# Create an event binding on our entry box
-my_entry.bind('<KeyRelease>', check)	
+# Create a binding on the listbox onclick
+my_list.bind("<<ListboxSelect>>", fillout)
 
-
+# Create a binding on the entry box
+my_entry.bind("<KeyRelease>", check)
 
 root.mainloop()
