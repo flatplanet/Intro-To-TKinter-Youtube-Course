@@ -20,7 +20,7 @@ def fillout(e):
 	my_entry.delete(0, END)
 
 	# Add clicked list item to entry box
-	my_entry.insert(0, my_list.get(ACTIVE))
+	my_entry.insert(0, my_list.get(ANCHOR))
 
 # Create function to check entry vs listbox
 def check(e):
