@@ -58,7 +58,7 @@ def Update():
 
 	# Update our bitcoin label
 	bit_label.config(text=f'${price_large2}')
-	# Set timer to 1 minute
+	# Set timer to 30 seconds
 	# 1 second = 1000
 	root.after(30000, Update)
 
