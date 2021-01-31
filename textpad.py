@@ -64,6 +64,8 @@ def save_as_file():
 	if text_file:
 		# Update Status Bars
 		name = text_file
+		global open_status_name
+        	open_status_name=name
 		status_bar.config(text=f'Saved: {name}        ')
 		name = name.replace("C:/gui/", "")
 		root.title(f'{name} - TextPad!')
