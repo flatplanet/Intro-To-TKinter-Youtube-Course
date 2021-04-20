@@ -3,7 +3,6 @@ from tkinter import ttk
 import sqlite3
 
 
-
 root = Tk()
 root.title('Codemy.com - TreeBase')
 root.iconbitmap('c:/gui/codemy.ico')
@@ -35,25 +34,24 @@ data = [
 	
 ]
 '''
+# Create a database or connect to one
+conn = sqlite3.connect('tree_crm2.db')
 
-# Do some database stuff
-# Create a database or connect to one that exists
-conn = sqlite3.connect('tree_crm.db')
-
-# Create a cursor instance
+# Create Cursor Instance
 c = conn.cursor()
 
-# Create Table
+
+# Create Table text, integer, real (decimal), null, blob
 c.execute("""CREATE TABLE if not exists customers (
-	first_name text,
-	last_name text,
-	id integer,
-	address text,
-	city text,
-	state text,
-	zipcode text)
+		first_name text,
+		last_name text,
+		id integer,
+		address text,
+		city text,
+		state text,
+		zipcode text)
 	""")
-# Add dummy data to table
+#insert into table
 '''
 for record in data:
 	c.execute("INSERT INTO customers VALUES (:first_name, :last_name, :id, :address, :city, :state, :zipcode)", 
@@ -68,27 +66,27 @@ for record in data:
 		}
 		)
 '''
-
-
 # Commit changes
 conn.commit()
 
-# Close our connection
+# Close connection
 conn.close()
 
+
 def query_database():
-	# Create a database or connect to one that exists
-	conn = sqlite3.connect('tree_crm.db')
+	# Create a database or connect to one
+	conn = sqlite3.connect('tree_crm2.db')
 
-	# Create a cursor instance
+	# Create Cursor Instance
 	c = conn.cursor()
-
+	
 	c.execute("SELECT * FROM customers")
 	records = c.fetchall()
 	
 	# Add our data to the screen
 	global count
 	count = 0
+
 
 	for record in records:
 		if count % 2 == 0:
@@ -99,10 +97,11 @@ def query_database():
 		count += 1
 
 
+
 	# Commit changes
 	conn.commit()
 
-	# Close our connection
+	# Close connection
 	conn.close()
 
 
@@ -164,11 +163,24 @@ my_tree.heading("State", text="State", anchor=CENTER)
 my_tree.heading("Zipcode", text="Zipcode", anchor=CENTER)
 
 
+
 # Create Striped Row Tags
 my_tree.tag_configure('oddrow', background="white")
 my_tree.tag_configure('evenrow', background="lightblue")
 
+# Add our data to the screen
+global count
+count = 0
 
+'''
+for record in data:
+	if count % 2 == 0:
+		my_tree.insert(parent='', index='end', iid=count, text='', values=(record[0], record[1], record[2], record[3], record[4], record[5], record[6]), tags=('evenrow',))
+	else:
+		my_tree.insert(parent='', index='end', iid=count, text='', values=(record[0], record[1], record[2], record[3], record[4], record[5], record[6]), tags=('oddrow',))
+	# increment counter
+	count += 1
+'''
 
 # Add Record Entry Boxes
 data_frame = LabelFrame(root, text="Record")
@@ -323,7 +335,7 @@ select_record_button.grid(row=0, column=7, padx=10, pady=10)
 # Bind the treeview
 my_tree.bind("<ButtonRelease-1>", select_record)
 
-# Run to pull data from database on start
+
 query_database()
 
 root.mainloop()
