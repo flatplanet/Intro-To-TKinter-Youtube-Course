@@ -83,18 +83,22 @@ def query_database():
 	# Create a cursor instance
 	c = conn.cursor()
 
-	c.execute("SELECT * FROM customers")
+	c.execute("SELECT rowid, * FROM customers")
 	records = c.fetchall()
 	
 	# Add our data to the screen
 	global count
 	count = 0
+	
+	for record in records:
+		print(record)
+
 
 	for record in records:
 		if count % 2 == 0:
-			my_tree.insert(parent='', index='end', iid=count, text='', values=(record[0], record[1], record[2], record[3], record[4], record[5], record[6]), tags=('evenrow',))
+			my_tree.insert(parent='', index='end', iid=count, text='', values=(record[1], record[2], record[0], record[4], record[5], record[6], record[7]), tags=('evenrow',))
 		else:
-			my_tree.insert(parent='', index='end', iid=count, text='', values=(record[0], record[1], record[2], record[3], record[4], record[5], record[6]), tags=('oddrow',))
+			my_tree.insert(parent='', index='end', iid=count, text='', values=(record[1], record[2], record[0], record[4], record[5], record[6], record[7]), tags=('oddrow',))
 		# increment counter
 		count += 1
 
