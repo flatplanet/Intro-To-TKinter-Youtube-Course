@@ -6,6 +6,37 @@ root.title('Codemy.com - Software Registration Key Generator')
 root.iconbitmap('c:/gui/codemy.ico')
 root.geometry("500x500")
 
+# Verify the key
+def verify(key):
+	global score
+	score = 0
+
+	# Definie Our Check Digit 
+	check_digit = key[2]
+	check_digit_count = 0
+
+	#aafa-bbfb-cccc-ddfd-1111
+	# Separate By Dash
+	chunks = key.split('-')
+
+	# Loops thru and check stuff
+	for chunk in chunks:
+		if len(chunk) != 4:
+			return False
+
+		for char in chunk:
+			if char == check_digit:
+				check_digit_count += 1
+			# Grab the score of the ANSCII character
+			score += ord(char)
+
+	# Check for rules
+	if score > 1700 and score < 1800 and check_digit_count == 3:
+		return True
+	else:
+		return False
+
+
 # Generate Key
 def generate():
 	# Clear key label
@@ -38,7 +69,17 @@ def generate():
 	key = key[:-1]
 
 	# output the key
-	key_label.insert(0, key)
+	#key_label.insert(0, key)
+
+	# Vefrify
+	if verify(key):
+		key_label.insert(0, key)
+		verify_label.config(text="Valid!!")
+		score_label.config(text=f'Score: {score}')
+	else:
+		# key is not verified
+		# Run the generate function again
+		generate()
 
 # Create a button
 generate_button = Button(root, text="Generate Key!", font=("Helvetica", 32), command=generate)
