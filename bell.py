@@ -4,6 +4,8 @@ root = Tk()
 root.title('Codemy.com - Ring The Bell!')
 root.iconbitmap('c:/gui/codemy.ico')
 root.geometry("500x500")
+thing = 500
+print(f"{thing:04d}")
 
 # Define image
 bell = PhotoImage(file="images/bell.png")
