@@ -3,6 +3,7 @@ from tkinter import *
 root = Tk()
 root.title('Codemy.com - Center')
 root.iconbitmap('c:/gui/codemy.ico')
+root.geometry("800x500")
 
 # Designate Height and Width of our app
 app_width = 500
