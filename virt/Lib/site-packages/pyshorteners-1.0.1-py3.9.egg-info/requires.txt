@@ -1,0 +1,7 @@
+requests
+
+[dev]
+pre-commit
+
+[docs]
+sphinx

@@ -9,7 +9,7 @@ root.geometry("600x500")
 def multiple_yview(*args):
 	my_text1.yview(*args)
 	my_text2.yview(*args)
-	print(*args)
+	#print(*args)
 
 # Frame
 my_frame = Frame(root)
