@@ -13,7 +13,7 @@ def payment():
 		rate = float(interest_entry.get())
 		loan = int(amount_entry.get())
 		# Calculate The Loan
-		# Monthly Interst Rate
+		# Monthly Interest Rate
 		monthly_rate = rate / 100 / 12 
 		# Get Our Payment
 		payment = (monthly_rate / (1 - (1 + monthly_rate)**(-months))) * loan
