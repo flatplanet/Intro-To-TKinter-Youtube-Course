@@ -17,7 +17,7 @@ label.pack()
 
 button_quit.pack()
 t = Text(root, height=5, width=30)
-t.insert(END, "What the Fuck!\nChuck!")
+t.insert(END, "What the Funk!\nChuck!")
 #t.pack()
 
 

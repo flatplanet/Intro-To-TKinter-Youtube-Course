@@ -1,0 +1,133 @@
+from ssl import SSLContext
+from typing import List, Optional, Tuple, Union
+
+from .._backends.auto import AsyncLock, AsyncSocketStream, AutoBackend
+from .._types import URL, Headers, Origin, TimeoutDict
+from .._utils import get_logger, url_to_origin
+from .base import (
+    AsyncByteStream,
+    AsyncHTTPTransport,
+    ConnectionState,
+    NewConnectionRequired,
+)
+from .http2 import AsyncHTTP2Connection
+from .http11 import AsyncHTTP11Connection
+
+logger = get_logger(__name__)
+
+
+class AsyncHTTPConnection(AsyncHTTPTransport):
+    def __init__(
+        self,
+        origin: Origin,
+        http2: bool = False,
+        ssl_context: SSLContext = None,
+        socket: AsyncSocketStream = None,
+    ):
+        self.origin = origin
+        self.http2 = http2
+        self.ssl_context = SSLContext() if ssl_context is None else ssl_context
+        self.socket = socket
+
+        if self.http2:
+            self.ssl_context.set_alpn_protocols(["http/1.1", "h2"])
+
+        self.connection: Union[None, AsyncHTTP11Connection, AsyncHTTP2Connection] = None
+        self.is_http11 = False
+        self.is_http2 = False
+        self.connect_failed = False
+        self.expires_at: Optional[float] = None
+        self.backend = AutoBackend()
+
+    @property
+    def request_lock(self) -> AsyncLock:
+        # We do this lazily, to make sure backend autodetection always
+        # runs within an async context.
+        if not hasattr(self, "_request_lock"):
+            self._request_lock = self.backend.create_lock()
+        return self._request_lock
+
+    async def request(
+        self,
+        method: bytes,
+        url: URL,
+        headers: Headers = None,
+        stream: AsyncByteStream = None,
+        timeout: TimeoutDict = None,
+    ) -> Tuple[bytes, int, bytes, List[Tuple[bytes, bytes]], AsyncByteStream]:
+        assert url_to_origin(url) == self.origin
+        async with self.request_lock:
+            if self.state == ConnectionState.PENDING:
+                if not self.socket:
+                    logger.trace(
+                        "open_socket origin=%r timeout=%r", self.origin, timeout
+                    )
+                    self.socket = await self._open_socket(timeout)
+                self._create_connection(self.socket)
+            elif self.state in (ConnectionState.READY, ConnectionState.IDLE):
+                pass
+            elif self.state == ConnectionState.ACTIVE and self.is_http2:
+                pass
+            else:
+                raise NewConnectionRequired()
+
+        assert self.connection is not None
+        logger.trace(
+            "connection.request method=%r url=%r headers=%r", method, url, headers
+        )
+        return await self.connection.request(method, url, headers, stream, timeout)
+
+    async def _open_socket(self, timeout: TimeoutDict = None) -> AsyncSocketStream:
+        scheme, hostname, port = self.origin
+        timeout = {} if timeout is None else timeout
+        ssl_context = self.ssl_context if scheme == b"https" else None
+        try:
+            return await self.backend.open_tcp_stream(
+                hostname, port, ssl_context, timeout
+            )
+        except Exception:
+            self.connect_failed = True
+            raise
+
+    def _create_connection(self, socket: AsyncSocketStream) -> None:
+        http_version = socket.get_http_version()
+        logger.trace(
+            "create_connection socket=%r http_version=%r", socket, http_version
+        )
+        if http_version == "HTTP/2":
+            self.is_http2 = True
+            self.connection = AsyncHTTP2Connection(
+                socket=socket, backend=self.backend, ssl_context=self.ssl_context
+            )
+        else:
+            self.is_http11 = True
+            self.connection = AsyncHTTP11Connection(
+                socket=socket, ssl_context=self.ssl_context
+            )
+
+    @property
+    def state(self) -> ConnectionState:
+        if self.connect_failed:
+            return ConnectionState.CLOSED
+        elif self.connection is None:
+            return ConnectionState.PENDING
+        return self.connection.state
+
+    def is_connection_dropped(self) -> bool:
+        return self.connection is not None and self.connection.is_connection_dropped()
+
+    def mark_as_ready(self) -> None:
+        if self.connection is not None:
+            self.connection.mark_as_ready()
+
+    async def start_tls(self, hostname: bytes, timeout: TimeoutDict = None) -> None:
+        if self.connection is not None:
+            logger.trace("start_tls hostname=%r timeout=%r", hostname, timeout)
+            await self.connection.start_tls(hostname, timeout)
+            logger.trace("start_tls complete hostname=%r timeout=%r", hostname, timeout)
+            self.socket = self.connection.socket
+
+    async def aclose(self) -> None:
+        async with self.request_lock:
+            if self.connection is not None:
+                await self.connection.aclose()
