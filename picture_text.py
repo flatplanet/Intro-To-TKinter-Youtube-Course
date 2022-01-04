@@ -7,7 +7,7 @@ root.title('Codemy.com - Add Text To Images')
 root.iconbitmap('c:/gui/codemy.ico')
 root.geometry("600x650")
 
-# Add Text To Font
+# Add Text To Image
 def add_it():
 	# Open our image
 	my_image = Image.open("images/aspen.png")
