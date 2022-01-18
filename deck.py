@@ -50,11 +50,9 @@ def shuffle():
 	# Append Card To Dealer List
 	dealer.append(card)
 	# Output Card To Screen
-
 	global dealer_image
 	dealer_image = resize_cards(f'images/cards/{card}.png')
 	dealer_label.config(image=dealer_image)
-
 
 	# Grab a random Card For Player
 	card = random.choice(deck)
@@ -67,7 +65,7 @@ def shuffle():
 	player_image = resize_cards(f'images/cards/{card}.png')
 	player_label.config(image=player_image)
 
-	player_label.config(text=card)
+	#player_label.config(text=card)
 
 	# Put number of remaining cards in title bar
 	root.title(f'Codemy.com - {len(deck)} Cards Left')
@@ -82,7 +80,6 @@ def deal_cards():
 		deck.remove(card)
 		# Append Card To Dealer List
 		dealer.append(card)
-		# Output Card To Screen
 		# Output Card To Screen
 		global dealer_image
 		dealer_image = resize_cards(f'images/cards/{card}.png')
@@ -138,7 +135,7 @@ card_button.pack(pady=20)
 
 
 
-
+# Shuffle Deck On Start
 shuffle()
 
 
