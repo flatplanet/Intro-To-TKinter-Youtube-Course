@@ -23,7 +23,7 @@ def blackjack_shuffle(player):
 	if player == "player":
 		if len(player_score) == 2:
 			if player_score[0] + player_score[1] == 21:
-				messagebox.showinfo("Player Wins!", "Blackjack! PLayer Wins!")
+				messagebox.showinfo("Player Wins!", "Blackjack! Player Wins!")
 				# Disable buttons
 				card_button.config(state="disabled")
 				stand_button.config(state="disabled")
