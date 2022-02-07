@@ -46,7 +46,7 @@ def resize_cards(card):
 
 # Shuffle The Cards
 def shuffle():
-	# Disable buttons
+	# Enable buttons
 	card_button.config(state="normal")
 	stand_button.config(state="normal")
 	# Clear all the old cards from previous games
