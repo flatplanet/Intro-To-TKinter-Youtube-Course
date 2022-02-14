@@ -17,8 +17,6 @@ def blackjack_shuffle(player):
 				# Update status
 				blackjack_status["dealer"] = "yes"
 				
-				
-
 
 	if player == "player":
 		if len(player_score) == 2:
@@ -26,10 +24,7 @@ def blackjack_shuffle(player):
 				# Update status
 				blackjack_status["player"] = "yes"
 				
-				#messagebox.showinfo("Player Wins!", "Blackjack! Player Wins!")
-				# Disable buttons
-				#card_button.config(state="disabled")
-				#stand_button.config(state="disabled")
+
 
 	if len(dealer_score) == 2 and len(player_score) == 2:
 		# Check For Push/Tie
