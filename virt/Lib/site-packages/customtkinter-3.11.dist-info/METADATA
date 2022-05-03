@@ -1,0 +1,19 @@
+Metadata-Version: 2.1
+Name: customtkinter
+Version: 3.11
+Summary: Create modern looking gui with tkinter and python
+Home-page: https://github.com/TomSchimansky/CustomTkinter
+Author: Tom Schimansky
+License: Creative Commons Zero v1.0 Universal
+Platform: UNKNOWN
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: darkdetect
+
+# CustomTkinter UI-Library
+
+Detailed Information: https://github.com/TomSchimansky/CustomTkinter
+
