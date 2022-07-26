@@ -168,6 +168,24 @@ def italics_it():
 	else:
 		my_text.tag_add("italic", "sel.first", "sel.last")
 
+# Underline Text
+def underline_it():
+	# Create our font
+	underline_font = font.Font(my_text, my_text.cget("font"))
+	underline_font.configure(underline=True)
+
+	# Configure a tag
+	my_text.tag_configure("underline", font=underline_font)
+
+	# Define Current tags
+	current_tags = my_text.tag_names("sel.first")
+
+	# If statment to see if tag has been set
+	if "underline" in current_tags:
+		my_text.tag_remove("underline", "sel.first", "sel.last")
+	else:
+		my_text.tag_add("underline", "sel.first", "sel.last")
+
 # Change Selected Text Color
 def text_color():
 	# Pick a color
@@ -235,6 +253,7 @@ def night_on():
 	# toolbar buttons
 	bold_button.config(bg=second_color)
 	italics_button.config(bg=second_color)
+	underline_button.config(bg=second_color)
 	redo_button.config(bg=second_color)
 	undo_button.config(bg=second_color)
 	color_text_button.config(bg=second_color)
@@ -258,6 +277,7 @@ def night_off():
 	# toolbar buttons
 	bold_button.config(bg=second_color)
 	italics_button.config(bg=second_color)
+	underline_button.config(bg=second_color)
 	redo_button.config(bg=second_color)
 	undo_button.config(bg=second_color)
 	color_text_button.config(bg=second_color)
@@ -362,6 +382,9 @@ bold_button.grid(row=0, column=0, sticky=W, padx=5, pady=5)
 # Italics Button
 italics_button = Button(toolbar_frame, text="Italics", command=italics_it)
 italics_button.grid(row=0, column=1, padx=5, pady=5)
+# Underline Button
+underline_button = Button(toolbar_frame, text="Underline", command=underline_it)
+underline_button.grid(row=0, column=2, padx=5, pady=5)
 
 # Undo/Redo Buttons
 undo_button = Button(toolbar_frame, text="Undo", command=my_text.edit_undo)
